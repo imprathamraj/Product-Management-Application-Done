@@ -1,8 +1,6 @@
 # Product-Management-Application-Done
 4th Stage: Product-Management-Application-Done
 
-🔗 Repository: Product-Management-Application-Done
-
 Overview
 
 This is the final version of the Product Management Application, fully developed with backend functionalities.
