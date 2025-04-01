@@ -2,7 +2,9 @@ package com.application.ProductManagementAppUsingSpringBootWeb.controller;
 
 import com.application.ProductManagementAppUsingSpringBootWeb.service.ProductService;
 import com.application.ProductManagementAppUsingSpringBootWeb.entity.Product;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +50,10 @@ public class ProductController {
     @PostMapping("/add")
     public void addProduct(@RequestBody Product product) {
         service.addProduct(product);
+    }
+
+    @GetMapping("csrf-token")
+    public CsrfToken getCsrfToken(HttpServletRequest request){
+        return (CsrfToken) request.getAttribute("_csrf");
     }
 }
