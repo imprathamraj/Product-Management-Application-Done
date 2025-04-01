@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,21 +17,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // Disabling Csrf
-        httpSecurity.csrf(customizer -> customizer.disable());
 
-        // Enabling Authorising
-        httpSecurity.authorizeHttpRequests(request -> request.anyRequest().authenticated());
+        return httpSecurity
+                // Disabling Csrf
+                .csrf(AbstractHttpConfigurer::disable)
 
-        // Enabling the form login -> for browser
-        httpSecurity.formLogin(Customizer.withDefaults());
+                // Enabling Authorising
+                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
 
-        // Enabling the form login -> for postman -> rest api access
-        httpSecurity.httpBasic(Customizer.withDefaults());
+                // Enabling the form login -> for browser
+                //.formLogin(Customizer.withDefaults())
 
-        // To make stateless
-        httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
-        return httpSecurity.build();
+                // Enabling the form login -> for postman -> rest api access
+                .httpBasic(Customizer.withDefaults())
+
+                // To make stateless
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .build();
     }
 
 
